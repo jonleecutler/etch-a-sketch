@@ -1,9 +1,9 @@
-var COLOUR =  '#505050';  // This is the drawing color
-var radius = 3;           // Constant radio for the line
-var socket = io();        // websocket to the server
-var previousPosition=[0,0]; // previous position to draw a line from
-var ctx = Sketch.create(); //Creating the drawing context
-var firstMessage=true;    // What the first message, to start on the first value
+var COLOUR = '#505050';       // This is the drawing color
+var radius = 3;               // Constant radio for the line
+var socket = io();            // websocket to the server
+var previousPosition = [0,0]; // previous position to draw a line from
+var ctx = Sketch.create();    //Creating the drawing context
+var firstMessage = true;      // What the first message, to start on the first value
 
     ctx.container = document.getElementById( 'container' ); //reference drawing canvas
     ctx.autoclear= false; // making sure it stays
@@ -11,9 +11,18 @@ var firstMessage=true;    // What the first message, to start on the first value
     ctx.setup = function() { console.log( 'setup' );} // Setup all variables
     ctx.keydown= function() { if ( ctx.keys.C ) ctx.clear();} // handeling keydowns
 
-    socket.on('reset', function() { // on a 'reset' message clean and reste firstMessage
+    socket.on('reset', function() { // on a 'reset' message clean and reset firstMessage
       firstMessage=true;
       ctx.clear();
+    });
+
+    socket.on('color', function() { // on a 'color' choose a new random color
+      var r = Math.floor(Math.random() * 256); // Random between 0-255
+      var g = Math.floor(Math.random() * 256); // Random between 0-255
+      var b = Math.floor(Math.random() * 256); // Random between 0-255
+      var rgb = '#' + r.toString(16) + g.toString(16) + b.toString(16);
+
+      COLOUR = rgb;
     });
 
     socket.on('new-pos', function(newPosition) { // handling new sensor values
