@@ -27,10 +27,8 @@ void setup(){
   Serial.begin(115200);
 }
 
-
 void loop(){
-	if(millis()>=targetTime){
-
+  if(millis()>=targetTime){
     // Check the button state to flip states if needed
     int buttonState = digitalRead(BUTTONPIN);
     if (buttonState == HIGH) {
@@ -74,11 +72,11 @@ void loop(){
     int ySensorPos = analogRead(SENSORPINY);
     
     String data = String(xSensorPos) + "," + String(ySensorPos) + "\r\n";
-		Serial.println(data.c_str());
+    Serial.println(data.c_str());
 
     targetTime= millis()+interval;
 	}
  
-	// TODO: Detect if you want to reset the screen(shake the etch-a-sketch)
+  // TODO: Detect if you want to reset the screen(shake the etch-a-sketch)
   // TODO: write the reset message(see server.js) to the serial port
 }
