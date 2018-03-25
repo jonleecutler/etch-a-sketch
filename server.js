@@ -22,9 +22,9 @@ http.listen(serverPort, function() {
 //---------------------- SERIAL COMMUNICATION --------------------------------//
 // start the serial port connection and read on newlines
 const serial = new serialPort('/dev/ttyUSB0', {
- baudRate:115200
-
+  baudRate: 115200
 });
+
 const parser = new readLine({
   delimiter: '\r\n'
 });
@@ -32,10 +32,10 @@ const parser = new readLine({
 // Read data that is available on the serial port and send it to the websocket
 serial.pipe(parser);
 parser.on('data', function(data) { // on data from the arduino
-  if (data=='rst') {  // if its the 'rst' string call reset
+  if (data == 'rst') {  // if its the 'rst' string call reset
     io.emit('reset');
   }
-  else if (data=='clr') {  // if its the 'clr' string call color
+  else if (data == 'clr') {  // if its the 'clr' string call color
     io.emit('color');
   }
   else { // any other data we try to forward by spliting it
@@ -53,7 +53,7 @@ io.on('connect', function(socket) {
   console.log('a user connected');
   io.emit('reset'); // call reset to make sure the website is clean
 
-// if you get the 'disconnect' message, say the user disconnected
+  // if you get the 'disconnect' message, say the user disconnected
   io.on('disconnect', function() {
     console.log('user disconnected');
   });
